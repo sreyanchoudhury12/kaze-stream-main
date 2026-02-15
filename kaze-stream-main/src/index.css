@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* your styles */
+}
+
+@layer base {
+  :root {
+    --background: 228 6% 11%;
+    --foreground: 210 10% 90%;
+
+    --card: 228 6% 15%;
+    --card-foreground: 210 10% 90%;
+
+    --popover: 228 6% 15%;
+    --popover-foreground: 210 10% 90%;
+
+    --primary: 235 86% 65%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 228 6% 17%;
+    --secondary-foreground: 210 10% 80%;
+
+    --muted: 228 6% 20%;
+    --muted-foreground: 215 8% 55%;
+
+    --accent: 235 86% 65%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 63% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 228 6% 22%;
+    --input: 228 6% 22%;
+    --ring: 235 86% 65%;
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 228 6% 13%;
+    --sidebar-foreground: 210 10% 80%;
+    --sidebar-primary: 235 86% 65%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 228 6% 18%;
+    --sidebar-accent-foreground: 210 10% 90%;
+    --sidebar-border: 228 6% 20%;
+    --sidebar-ring: 235 86% 65%;
+
+    /* Kaze custom tokens */
+    --kaze-dark: 228 7% 12%;
+    --kaze-darker: 230 7% 16%;
+    --kaze-darkest: 225 7% 9%;
+    --kaze-channel: 228 6% 20%;
+    --kaze-hover: 228 6% 24%;
+    --kaze-online: 142 70% 45%;
+    --kaze-idle: 38 96% 54%;
+    --kaze-dnd: 0 84% 60%;
+    --kaze-offline: 215 8% 45%;
+    --kaze-glow: 235 86% 65%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-family: 'Inter', sans-serif;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--kaze-darkest));
+  }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--kaze-channel));
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground));
+  }
+}
+
+@layer utilities {
+  .kaze-glow {
+    box-shadow: 0 0 15px hsl(var(--kaze-glow) / 0.3),
+                0 0 30px hsl(var(--kaze-glow) / 0.1);
+  }
+  .kaze-glow-text {
+    text-shadow: 0 0 10px hsl(var(--kaze-glow) / 0.5);
+  }
+}
