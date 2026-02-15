@@ -7,73 +7,75 @@ const cors = require("cors");
 
 const { connectDB } = require("./config/db");
 
-// Route imports
 const authRoutes = require("./routes/authRoutes");
 const channelRoutes = require("./routes/channelRoutes");
 const messageRoutes = require("./routes/messageRoutes");
+const serverRoutes = require("./routes/serverRoutes");
 
-// Create Express app
 const app = express();
+const server = http.createServer(app);
 
-// Middlewares
-app.use(cors({
-  origin: "http://localhost:8080",
-  credentials: true
-}));
+/* ==============================
+   MIDDLEWARE
+============================== */
+
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 
-// API Routes
+/* ==============================
+   ROUTES
+============================== */
+
 app.use("/api/auth", authRoutes);
 app.use("/api/channels", channelRoutes);
 app.use("/api/messages", messageRoutes);
+app.use("/api/servers", serverRoutes);
 
-// Test Route
 app.get("/", (req, res) => {
   res.send("Kaze Chat Backend Running 🚀");
 });
 
-// Create HTTP server
-const server = http.createServer(app);
+/* ==============================
+   SOCKET.IO
+============================== */
 
-// Setup Socket.IO
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:8080",
-    methods: ["GET", "POST"],
+    origin: true,
+    credentials: true,
   },
 });
 
-// Socket Logic
 io.on("connection", (socket) => {
-
-
   socket.on("join_channel", (channelId) => {
     socket.join(channelId);
-    
   });
 
   socket.on("send_message", (messageData) => {
     io.to(messageData.channel_id).emit("receive_message", messageData);
   });
-
-  socket.on("disconnect", () => {
-   
-  });
 });
 
-// Connect Database then Start Server
+/* ==============================
+   START SERVER
+============================== */
+
 const PORT = process.env.PORT || 5000;
 
 connectDB()
   .then(() => {
+    console.log("✅ Database Connected");
+
     server.listen(PORT, () => {
-      
+      console.log(`🚀 Server running on port ${PORT}`);
     });
   })
   .catch((err) => {
-   console.error("Server creation error:", err);
+    console.error("❌ DB Connection Error:", err);
   });
-const serverRoutes = require("./routes/serverRoutes");
-app.use("/api/servers", serverRoutes);
-
-
